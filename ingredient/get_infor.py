@@ -40,7 +40,6 @@ class Get_infor(threading.Thread):
         self.english_name=english_name
 
     def run(self):
-        #self.session.proxies={'http':'http://127.0.0.0:8080'}
         self.statue=1
         try:
             html=self.session.get('http://www.cosdna.com/chs/stuff.php?q='+self.english_name,headers=self.headers).text
@@ -81,22 +80,6 @@ class Main():
         table=names.sheets()[0]
         threads=[]
         for i in range(table.nrows):
-            if i<9171:
-                continue
-            '''
-            work=Get_infor(table.cell(i,0).value,table.cell(i,1).value)
-            work.run()
-            if work.statue==0:
-                continue
-            self.sheet.write(self.count,0,work.score)
-            self.sheet.write(self.count,1,work.english_name)
-            self.sheet.write(self.count,2,work.chinese_name)
-            self.sheet.write(self.count,3,work.function)
-            self.count+=1
-            print(self.count)
-            time.sleep(4)
-            self.f.save('data.xls')
-            '''
             get_infor=Get_infor(table.cell(i,0).value,table.cell(i,1).value)
             threads.append(get_infor)
             if len(threads)<30 and i<9505:
@@ -114,7 +97,7 @@ class Main():
                 self.sheet.write(self.count,3,work.function)
                 self.count+=1
                 print(self.count)
-                self.f.save('data13.xls')
+                self.f.save('data.xls')
             threads=[]
 
 if __name__=='__main__':
